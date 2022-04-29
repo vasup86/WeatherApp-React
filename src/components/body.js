@@ -16,8 +16,8 @@ export default function Body(props){
     //fix location data, gets the prev entered city
     React.useEffect(()=>{
         //get lat and lon data for the location
-        console.log(props.Location)
-        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${props.Location}&limit=1&appid=${key}`)
+        console.log(location);
+        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`)
             .then(res=>res.json())
             .then(data=>{
                 fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&appid=${key}&units=metric`)
@@ -31,17 +31,27 @@ export default function Body(props){
                                 feels_like: data.main.feels_like,
                                 description: data.weather[0].description
                             }
+                            //console.log(a)
                             return(a)
                         })
                     })
-                    console.log(weatherData)
-            })
+                })
     }, [location]) //second parameter is dependency array
 
    // console.log(props.location)
     return(
         <div>
-            
+            <div className="weather">
+                <div className="temp">
+                    {weatherData.temp} °C
+                </div>
+                <div className="desc">
+                    {weatherData.feels_like}  {weatherData.description}
+                </div>
+                <div className="name">
+                    {weatherData.name}, {weatherData.country}
+                </div>
+            </div>
         </div>
     )
 }

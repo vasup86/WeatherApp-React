@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+#ignore the API key JSON file
 /src/apikey.json
 
 # testing
