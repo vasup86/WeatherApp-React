@@ -19,7 +19,7 @@ export default function Navbar(props){
     return(
         <nav className="navbar">
             <div className="title">
-                <h1 className="ID">Welcome,</h1>
+                <h1 className="ID">Weather App,</h1>
             </div>
             <div className="navbar-search">
                 <input id = "locationInput" type="text" />

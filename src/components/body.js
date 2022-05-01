@@ -1,9 +1,9 @@
 import React from "react";
 import data from "../apikey.json";
+import icons from "../icons.json";
 
 export default function Body(props){
     const location = props.Location;
-    console.log(location);
     const key = data.key
     const [weatherData, setWeatherData] = React.useState({
         temp: "",
@@ -13,10 +13,10 @@ export default function Body(props){
         feels_like : ""
     });
 
-    //fix location data, gets the prev entered city
+    const keywords = ["sunny","clear","rain","clouds","cloudy","snow","thunder","windy","haze"]
+
     React.useEffect(()=>{
-        //get lat and lon data for the location
-        console.log(location);
+        //get lat and lon data for the location, then weather data based on lat and lon
         fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`)
             .then(res=>res.json())
             .then(data=>{
@@ -38,20 +38,34 @@ export default function Body(props){
                 })
     }, [location]) //second parameter is dependency array
 
-   // console.log(props.location)
+    const weatherIcon = () =>{
+        const a  = weatherData.description;
+        let re = new RegExp('(' + keywords.join('|') + ')', 'g'); //regular expression to find the keywords in the string
+        const b =  a.toLowerCase().match(re) //get the keywords from the string
+        try{
+            return (icons[b[0]]); //get the image from JSON based on keyword
+        } catch (e){
+            console.log(e);
+        }
+    }
     return(
-        <div>
-            <div className="weather">
-                <div className="temp">
-                    {weatherData.temp} °C
-                </div>
-                <div className="desc">
-                    {weatherData.feels_like}  {weatherData.description}
-                </div>
-                <div className="name">
-                    {weatherData.name}, {weatherData.country}
-                </div>
-            </div>
+        <div className="body">
+            {location &&
+                <div className="weather">
+                    <div className="temp-data">
+                        <div className="temp"> 
+                            {weatherData.temp + "°C"} 
+                        </div>
+                        <img src= {weatherIcon()} />
+                    </div>
+                    <div className="desc">
+                        {weatherData.feels_like} °C   {weatherData.description}
+                    </div>
+                    <div className="name">
+                        {weatherData.name}, {weatherData.country}
+                    </div>
+                </div> 
+            }
         </div>
     )
 }
