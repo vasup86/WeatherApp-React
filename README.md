@@ -1,4 +1,4 @@
-## Website: https://vasup86.github.io/WeatherApp-React/
+## Website: https://weather-app-reactjs2.netlify.app/
 
 # Getting Started with Create React App
 

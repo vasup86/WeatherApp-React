@@ -17,7 +17,7 @@ export default function Body(props){
 
     React.useEffect(()=>{
         //get lat and lon data for the location, then weather data based on lat and lon
-        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`)
+        fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`)
             .then(res=>res.json())
             .then(data=>{
                 fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&appid=${key}&units=metric`)
