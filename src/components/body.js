@@ -13,29 +13,33 @@ export default function Body(props){
         feels_like : ""
     });
 
-    const keywords = ["sunny","clear","rain","clouds","cloudy","snow","thunder","windy","haze"]
+    const keywords = ["sunny","clear","rain","clouds","cloudy","snow","thunder","windy","haze","dust","smoke","fog","mist"]
 
     React.useEffect(()=>{
         //get lat and lon data for the location, then weather data based on lat and lon
-        fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`)
-            .then(res=>res.json())
-            .then(data=>{
-                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&appid=${key}&units=metric`)
-                    .then(res=>res.json())
-                    .then(data=> {
-                        setWeatherData(()=>{
-                            const a = {
-                                temp: data.main.temp,
-                                name : data.name,
-                                country: data.sys.country,
-                                feels_like: data.main.feels_like,
-                                description: data.weather[0].description
-                            }
-                            //console.log(a)
-                            return(a)
+        try{
+            fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`)
+                .then(res=>res.json())
+                .then(data=>{
+                    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&appid=${key}&units=metric`)
+                        .then(res=>res.json())
+                        .then(data=> {
+                            setWeatherData(()=>{
+                                const a = {
+                                    temp: data.main.temp,
+                                    name : data.name,
+                                    country: data.sys.country,
+                                    feels_like: data.main.feels_like,
+                                    description: data.weather[0].description
+                                }
+                                //console.log(a)
+                                return(a)
+                            })
                         })
-                    })
                 })
+        } catch (e) {
+            console.log(e);
+        }
     }, [location]) //second parameter is dependency array
 
     const weatherIcon = () =>{
@@ -49,23 +53,31 @@ export default function Body(props){
         }
     }
     return(
-        <div className="body">
-            {location &&
-                <div className="weather">
-                    <div className="temp-data">
-                        <div className="temp"> 
-                            {weatherData.temp + "°C"} 
+        <div>
+            <div className="body">
+                {location &&
+                    <div className="weather">
+                        <div className="weather-2">
+                            <div className="temp-data">
+                                <div className="temp">
+                                    {weatherData.temp + "°C"}
+                                </div>
+                                <img src= {weatherIcon()} />
+                            </div>
+                            <div className="desc">
+                                {weatherData.feels_like} °C   {weatherData.description}
+                            </div>
+                            <div className="name">
+                                {weatherData.name}, {weatherData.country}
+                            </div>
                         </div>
-                        <img src= {weatherIcon()} />
                     </div>
-                    <div className="desc">
-                        {weatherData.feels_like} °C   {weatherData.description}
-                    </div>
-                    <div className="name">
-                        {weatherData.name}, {weatherData.country}
-                    </div>
-                </div> 
-            }
+                }
+            </div>
+            <div>
+                Github:
+                <a href="https://github.com/vasup86/WeatherApp-React" target="_blank" rel="noopener noreferrer">Repo</a>
+            </div>
         </div>
     )
 }

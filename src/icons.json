@@ -7,5 +7,9 @@
     "snow":"/img/snow.svg",
     "thunder":"/img/thunder.svg",
     "windy":"/img/windy.svg",
-    "haze":"/img/haze.svg"
+    "haze":"/img/haze.svg",
+    "dust":"/img/dust.svg",
+    "smoke":"/img/dust.svg",
+    "fog":"/img/fog.svg",
+    "mist":"/img/haze.svg"
 }
